@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import UserModel from "@/models/user.model";
+import userModel from "@/models/user.model";
 import connectDB from "@/config/dbConfig";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -17,7 +17,7 @@ export async function POST(req) {
             );
         }
 
-        const user = await UserModel.findOne({ email });
+        const user = await userModel.findOne({ email });
         if (!user) {
             return NextResponse.json(
                 { error: "Invalid credentials!!!" },

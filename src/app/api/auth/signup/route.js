@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import UserModel from "@/models/user.model";
+import userModel from "@/models/user.model";
 import connectDB from "@/config/dbConfig";
 
 export async function POST(req) {
@@ -15,7 +15,7 @@ export async function POST(req) {
             );
         }
 
-        const user = await UserModel.findOne({ email });
+        const user = await userModel.findOne({ email });
 
         if (user) {
             return NextResponse.json(
@@ -24,7 +24,7 @@ export async function POST(req) {
             );
         }
 
-        const newUser = new UserModel({
+        const newUser = new userModel({
             fullname,
             email,
             password,
