@@ -22,7 +22,7 @@ const invoiceSchema = new mongoose.Schema(
                 type: String,
             },
         },
-        userId: {
+        senderId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },

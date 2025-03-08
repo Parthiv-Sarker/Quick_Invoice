@@ -27,7 +27,7 @@ export async function POST(req) {
         const invoice = await invoiceModel.create(data);
 
         return NextResponse.json(
-            { message: "Invoice created successfully.", invoice },
+            { message: "Invoice created successfully.", data: invoice },
             { status: 201 }
         );
     } catch (error) {
