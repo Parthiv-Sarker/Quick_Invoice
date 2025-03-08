@@ -22,10 +22,13 @@ const HomeNavbar = () => {
                     alt="Invoice Logo"
                 /> */}
                 <h1 className="text-lg font-extrabold">
-                    <span className="text-[#96CDB4] text-xl md:text-3xl">
-                        Easy
+                    <span className="text-[#96CDB4] font-pacifico text-xl md:text-4xl">
+                        Quick
                     </span>
-                    <span className="text-[#FF6F68]"> Invoice</span>
+                    <span className="text-[#FF6F68] font-dancing-script">
+                        {" "}
+                        Invoice
+                    </span>
                 </h1>
             </Link>
 
