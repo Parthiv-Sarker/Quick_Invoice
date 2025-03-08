@@ -28,6 +28,7 @@ import { toast } from "sonner";
 
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
+import API from "@/config/axiosConfig";
 
 const formSchema = z.object({
     fullname: z
@@ -57,8 +58,28 @@ const Signup = () => {
     });
 
     const onSubmit = async (data) => {
-        
+        try {
+            setIsLoading(true);
+            const response = await API.post("/auth/signup", data);
+
+            toast.success("Signup Successful.");
+            router.push("/signin");
+        } catch (error) {
+            console.log("Error signing up:", error);
+
+            if (error?.response?.status === 400) {
+                toast.error("User already exists. Please sign in instead.");
+            } else {
+                toast.error("Signup failed", {
+                    description:
+                        error?.response?.data?.error || "Something went wrong.",
+                });
+            }
+        } finally {
+            setIsLoading(false);
+        }
     };
+
     return (
         <Card className="bg-transparent shadow-lg rounded-lg w-full max-w-md p-6">
             <CardHeader>
@@ -146,7 +167,7 @@ const Signup = () => {
                         {/* Submit Button */}
                         <Button
                             type="submit"
-                            className="w-full mt-4"
+                            className="w-full mt-4 hover:cursor-pointer"
                             disabled={isLoading}
                         >
                             Sign Up

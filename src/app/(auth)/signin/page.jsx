@@ -28,6 +28,8 @@ import { toast } from "sonner";
 
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
+import API from "@/config/axiosConfig";
+
 const formSchema = z.object({
     email: z.string().email("Invalid email address."),
     password: z.string(),
@@ -47,6 +49,20 @@ const Signin = () => {
     });
 
     const onSubmit = async (data) => {
+        try {
+            setIsLoading(true);
+            const response = await API.post("/auth/signin", data);
+            toast.success("SignIn Successfull.");
+            router.push("/");
+        } catch (error) {
+            console.log("Error signing in:", error);
+            toast.error("Error signing in.", {
+                description:
+                    error?.response?.data?.error || "Something went wrong.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
     };
     return (
         <Card className="bg-transparent shadow-lg rounded-lg w-full max-w-md p-6">
@@ -118,7 +134,7 @@ const Signin = () => {
                         {/* Submit Button */}
                         <Button
                             type="submit"
-                            className="w-full mt-4"
+                            className="w-full mt-4 hover:cursor-pointer"
                             disabled={isLoading}
                         >
                             Sign In
