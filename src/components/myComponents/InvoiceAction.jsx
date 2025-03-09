@@ -19,11 +19,21 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
+import { useDispatch } from "react-redux";
+import { updateInvoiceStatus } from "@/redux/slices/invoiceSlice";
+
 import API from "@/config/axiosConfig";
 
 const InvoiceAction = ({ invoiceId, currentStatus }) => {
+    const dispatch = useDispatch();
+
     const onUpdatePaymentStatus = async () => {
         try {
+            const response = await API.patch(
+                "/invoice/update-status",
+                invoiceId
+            );
+            dispatch(updateInvoiceStatus({ id: invoiceId, status: "Paid" }));
             toast("Payment status updated successfully!");
         } catch (error) {
             toast("Failed to update payment status", {

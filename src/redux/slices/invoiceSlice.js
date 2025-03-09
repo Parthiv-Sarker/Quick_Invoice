@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     status: false,
-    invoiceData: [],
     isLoading: false,
+    invoiceData: [],
 };
 
 const invoiceSlice = createSlice({

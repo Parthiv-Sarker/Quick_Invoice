@@ -8,16 +8,16 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-    TableCaption,
 } from "@/components/ui/table";
 
-import { formatDate } from "@/lib/DateFormat";
-import { formatCurrency } from "@/lib/CurrencyFormat";
+import { formatDate } from "@/lib/formatDate";
+import { formatCurrency } from "@/lib/formatCurrency";
 
 import { useSelector } from "react-redux";
 
 const PaidInvoiceList = () => {
     const { isLoading, invoiceData } = useSelector((state) => state.invoice);
+
     const paidInvoices = invoiceData.filter(
         (data) => data.paymentStatus === "Paid"
     );
