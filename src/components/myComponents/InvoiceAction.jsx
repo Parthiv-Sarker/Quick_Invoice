@@ -34,9 +34,9 @@ const InvoiceAction = ({ invoiceId, currentStatus }) => {
                 invoiceId
             );
             dispatch(updateInvoiceStatus({ id: invoiceId, status: "Paid" }));
-            toast("Payment status updated successfully!");
+            toast.success("Payment status updated successfully!");
         } catch (error) {
-            toast("Failed to update payment status", {
+            toast.error("Failed to update payment status", {
                 description: error.response?.data?.error,
             });
         }
