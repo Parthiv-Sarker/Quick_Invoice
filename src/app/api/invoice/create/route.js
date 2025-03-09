@@ -9,7 +9,7 @@ import jwtService from "@/lib/jwtService";
 
 export async function POST(req) {
     try {
-        const token = req.cookies.get("auth_token");
+        const token = req.cookies.get("quick_invoice_session");
         const decodedToken = await jwtService.verifyToken(token);
 
         await connectDB();
@@ -24,7 +24,10 @@ export async function POST(req) {
             );
         }
 
-        const invoice = await invoiceModel.create(data);
+        const invoice = await invoiceModel.create({
+            ...data,
+            senderId: user._id,
+        });
 
         return NextResponse.json(
             { message: "Invoice created successfully.", data: invoice },

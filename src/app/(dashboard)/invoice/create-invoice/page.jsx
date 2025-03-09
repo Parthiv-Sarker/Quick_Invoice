@@ -106,14 +106,13 @@ const CreateInvoice = () => {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data);
             setIsLoading(true);
-            // const response = await API.post("/invoice/create", data);
-            toast("Invoice created successfully.");
-            // form.reset();
+            const response = await API.post("/invoice/create", data);
+            toast.success("Invoice created successfully.");
+            form.reset();
         } catch (error) {
             console.log(error);
-            toast("Failed to create invoice.", {
+            toast.error("Failed to create invoice.", {
                 description: error.response?.data?.message,
             });
         } finally {

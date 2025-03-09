@@ -5,12 +5,12 @@ class JwtService {
         this.secret = process.env.NEXT_JWT_SECRET;
     }
 
-    async createToken(payload) {
-        return jwt.sign(payload, this.secret, { expiresIn: "7d" });
+    async createToken(payload) {        
+        return await jwt.sign(payload, this.secret, { expiresIn: "7d" });
     }
 
     async verifyToken(token) {
-        return jwt.verify(token?.value, this.secret);
+        return await jwt.verify(token?.value, this.secret);
     }
 
     deleteToken(response) {

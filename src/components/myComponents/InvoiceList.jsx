@@ -16,12 +16,13 @@ import { Badge } from "@/components/ui/badge";
 import MyLoader from "./MyLoader";
 import InvoiceAction from "./InvoiceAction";
 
+import { useDispatch, useSelector } from "react-redux";
+
 import { formatDate } from "@/lib/formatDate";
 import { formatCurrency } from "@/lib/formatCurrency";
 
 const InvoiceList = () => {
-    const invoiceData = [];
-    const isLoading = false;
+    const { invoiceData, isLoading } = useSelector((state) => state.invoice);
 
     const paymentStatusColor = (paymentStatus) => {
         switch (paymentStatus) {
@@ -75,7 +76,7 @@ const InvoiceList = () => {
                                                     {data?.invoiceNo}
                                                 </TableCell>
                                                 <TableCell className="font-semibold">
-                                                    {data?.clientName}
+                                                    {data?.client.name}
                                                 </TableCell>
                                                 <TableCell>
                                                     {formatDate(

@@ -9,7 +9,7 @@ export async function GET(req) {
     try {
         await connectDB();
 
-        const tokenCookie = req.cookies.get("auth_token");
+        const tokenCookie = req.cookies.get("quick_invoice_session");
         if (!tokenCookie) {
             return NextResponse.json(
                 { error: "Unauthorized access. Token missing!" },

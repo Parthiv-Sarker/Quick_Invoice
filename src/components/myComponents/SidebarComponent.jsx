@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import {
     Sidebar,
@@ -34,7 +34,7 @@ const SidebarComponent = () => {
                     className="w-16 h-16"
                 />
                 <div className="flex flex-col">
-                    <span className="text-4xl font-extrabold text-black">
+                    <span className="text-4xl font-extrabold font-dancing-script text-black">
                         Quick
                     </span>
                     <span className="font-pacifico text-2xl font-bold ml-10 text-[#FF6F68]">

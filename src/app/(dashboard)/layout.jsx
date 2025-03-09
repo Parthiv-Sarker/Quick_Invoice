@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -9,10 +9,14 @@ import { navLinks } from "@/components/myComponents/NavLinks";
 import LogoutButton from "@/components/myComponents/LogoutButton";
 import SidebarComponent from "@/components/myComponents/SidebarComponent";
 
+import { useDispatch, useSelector } from "react-redux";
+import { setInvoiceData, setLoading } from "@/redux/slices/invoiceSlice";
+
 import API from "@/config/axiosConfig";
 
 const DashboardLayout = ({ children }) => {
     const pathname = usePathname();
+    const dispatch = useDispatch();
 
     const extractedPath = `/${pathname.split("/")[1]}`;
     const pagePathName = navLinks.find((item) => item.url === extractedPath);
@@ -20,11 +24,14 @@ const DashboardLayout = ({ children }) => {
     useEffect(() => {
         async function fetchData() {
             try {
+                dispatch(setLoading(true));
                 const invoiceResponse = await API.get("/invoice/get-invoices");
-                const userResponse = await API.get("/auth/getuser");
+                dispatch(setInvoiceData(invoiceResponse.data.data));
+                // const userResponse = await API.get("/auth/getuser");
             } catch (error) {
                 console.log(error);
             } finally {
+                dispatch(setLoading(false));
             }
         }
         fetchData();

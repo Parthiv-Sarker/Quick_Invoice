@@ -6,7 +6,11 @@ const invoiceSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        customer: {
+        invoiceName: {
+            type: String,
+            required: true,
+        },
+        client: {
             name: {
                 type: String,
                 required: true,
@@ -30,7 +34,7 @@ const invoiceSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        unitPrice: {
+        rate: {
             type: Number,
             required: true,
         },
@@ -44,6 +48,10 @@ const invoiceSchema = new mongoose.Schema(
             default: "Pending",
         },
         dueDate: {
+            type: String,
+            required: true,
+        },
+        date: {
             type: Date,
             required: true,
         },
