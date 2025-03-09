@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-import SidebarComponent from "@/components/myComponents/SidebarComponent";
-
 import { navLinks } from "@/components/myComponents/NavLinks";
+import LogoutButton from "@/components/myComponents/LogoutButton";
+import SidebarComponent from "@/components/myComponents/SidebarComponent";
 
 import API from "@/config/axiosConfig";
 
@@ -43,7 +43,7 @@ const DashboardLayout = ({ children }) => {
                             </h1>
                         </div>
                         <div className="flex items-center gap-3 md:gap-6">
-                            Logout
+                            <LogoutButton />
                         </div>
                     </header>
                     <main className="bg-slate-100/60 remove-scrollbar h-full flex-1 overflow-auto bg-light-400 sm:rounded-[8px]">

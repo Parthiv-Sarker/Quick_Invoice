@@ -14,7 +14,7 @@ class JwtService {
     }
 
     deleteToken(response) {
-        response.cookies.set("auth_token", "", {
+        response.cookies.set("quick_invoice_session", "", {
             httpOnly: true,
             secure: process.env.NEXT_NODE_ENV === "production",
             sameSite: "strict",

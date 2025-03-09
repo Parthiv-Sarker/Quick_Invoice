@@ -53,7 +53,7 @@ const Signin = () => {
             setIsLoading(true);
             const response = await API.post("/auth/signin", data);
             toast.success("SignIn Successfull.");
-            router.push("/");
+            router.push("/dashboard");
         } catch (error) {
             console.log("Error signing in:", error);
             toast.error("Error signing in.", {

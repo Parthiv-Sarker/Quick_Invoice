@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import userModel from "@/models/user.model";
 import connectDB from "@/config/dbConfig";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwtService from "@/lib/jwtService";
 
 export async function POST(req) {
     try {
@@ -28,7 +28,7 @@ export async function POST(req) {
             _id: user._id,
             email: user.email,
             name: user.fullname,
-        }
+        };
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
@@ -38,20 +38,14 @@ export async function POST(req) {
             );
         }
 
-        const token = jwt.sign(
-            { userId: user._id },
-            process.env.NEXT_JWT_SECRET,
-            {
-                expiresIn: "7d",
-            }
-        );
+        const token = jwtService.createToken({ userId: user._id });
 
         // Setting token in HTTP-only cookie
         const response = NextResponse.json(
-            { message: "Login Successful.", userData},
+            { message: "Login Successful.", userData },
             { status: 200 }
         );
-        response.cookies.set("auth_token", token, {
+        response.cookies.set("quick_invoice_session", token, {
             httpOnly: true,
             secure: process.env.NEXT_NODE_ENV === "production",
             maxAge: 7 * 24 * 60 * 60, // 7 days
