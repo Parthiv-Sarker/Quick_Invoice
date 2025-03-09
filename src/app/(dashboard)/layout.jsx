@@ -10,6 +10,7 @@ import LogoutButton from "@/components/myComponents/LogoutButton";
 import SidebarComponent from "@/components/myComponents/SidebarComponent";
 
 import { useDispatch, useSelector } from "react-redux";
+import {currentUser} from "@/redux/slices/authSlice"
 import { setInvoiceData, setLoading } from "@/redux/slices/invoiceSlice";
 
 import API from "@/config/axiosConfig";
@@ -27,7 +28,8 @@ const DashboardLayout = ({ children }) => {
                 dispatch(setLoading(true));
                 const invoiceResponse = await API.get("/invoice/get-invoices");
                 dispatch(setInvoiceData(invoiceResponse.data.data));
-                // const userResponse = await API.get("/auth/getuser");
+                const userResponse = await API.get("/auth/getuser");
+                dispatch(currentUser(userResponse.data.data)); 
             } catch (error) {
                 console.log(error);
             } finally {

@@ -17,11 +17,15 @@ import {
 } from "@/components/ui/sidebar";
 
 import { navLinks } from "@/components/myComponents/NavLinks";
-import { invoiceLogo } from "@/assets/index"
+import { invoiceLogo } from "@/assets/index";
+
+import { useSelector } from "react-redux";
 
 const SidebarComponent = () => {
     const pathname = usePathname();
     const extractedPath = `/${pathname.split("/")[1]}`;
+
+    const { status, userData } = useSelector((state) => state.auth);    
 
     return (
         <Sidebar>
@@ -83,6 +87,7 @@ const SidebarComponent = () => {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter className="p-6">
+                {userData?.name}
             </SidebarFooter>
         </Sidebar>
     );

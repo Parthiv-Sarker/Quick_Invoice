@@ -1,8 +1,29 @@
 "use client";
+
+import React, { useEffect } from "react";
 import Link from "next/link";
 import HomeNavbar from "@/components/myComponents/HomeNavbar";
 
+import { useDispatch } from "react-redux";
+import { currentUser } from "@/redux/slices/authSlice";
+
+import API from "@/config/axiosConfig";
+
 export default function Home() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const userResponse = await API.get("/auth/getuser");
+                dispatch(currentUser(userResponse.data.data));                
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+    }, []);
+
     return (
         <div className="min-h-screen bg-white text-gray-900">
             <HomeNavbar />

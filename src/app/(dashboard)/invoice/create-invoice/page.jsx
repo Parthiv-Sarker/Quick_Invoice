@@ -39,6 +39,8 @@ import { toast } from "sonner";
 
 import { formatCurrency } from "@/lib/formatCurrency";
 
+import { useSelector } from "react-redux";
+
 import API from "@/config/axiosConfig";
 
 const formSchema = z.object({
@@ -71,8 +73,9 @@ const formSchema = z.object({
 });
 
 const CreateInvoice = () => {
-    const userData = [];
     const [isLoading, setIsLoading] = useState(false);
+
+    const { status, userData } = useSelector((state) => state.auth); 
 
     const form = useForm({
         resolver: zodResolver(formSchema),

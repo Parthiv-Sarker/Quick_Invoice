@@ -5,9 +5,10 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 import { formatCurrency } from "@/lib/formatCurrency";
 
+import { useSelector } from "react-redux";
+
 const StatCards = () => {
-    const invoiceData = [];
-    const isLoading = false;
+    const { isLoading, invoiceData } = useSelector((state) => state.invoice); 
 
     const pendingInvoices = invoiceData.filter(
         (data) => data.paymentStatus === "Pending"

@@ -6,8 +6,11 @@ import { Button } from "../ui/button";
 
 // import { invoiceLogo } from "@/assets/index";
 
+import { useSelector } from "react-redux";
+
+
 const HomeNavbar = () => {
-    const authStatus = false;
+    const { status } = useSelector((state) => state.auth);    
     return (
         <nav className="fixed z-50 w-screen h-20 flex justify-between items-center px-8 bg-white shadow-md">
             <Link
@@ -33,7 +36,7 @@ const HomeNavbar = () => {
             </Link>
 
             <div className="flex gap-2 md:space-x-4">
-                {!authStatus ? (
+                {!status ? (
                     <>
                         <Link href="/signin">
                             <Button className="text-sm h-8 md:px-8 md:py-4 md:text-lg font-bold text-white bg-[#FF6F68] rounded-lg hover:bg-[#fc5e56] hover:cursor-pointer">
