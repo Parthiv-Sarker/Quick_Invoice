@@ -190,7 +190,7 @@ const CreateInvoice = () => {
                                 control={form.control}
                                 name="currency"
                                 render={({ field }) => (
-                                    <FormItem className="">
+                                    <FormItem className="w-1/2">
                                         <FormLabel>Currency</FormLabel>
                                         <FormControl>
                                             <Select
