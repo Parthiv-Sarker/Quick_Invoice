@@ -44,6 +44,12 @@ const InvoiceAction = ({ invoiceId, currentStatus }) => {
 
     const onDownloadPdf = async () => {
         try {
+            const response = await API.post(
+                "/invoice/download-invoice",
+                invoiceId
+            );
+            console.log(response.data);
+            
             toast("Payment status updated successfully!");
         } catch (error) {
             toast("Failed to update payment status", {
