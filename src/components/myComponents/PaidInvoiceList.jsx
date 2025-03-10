@@ -49,7 +49,7 @@ const PaidInvoiceList = () => {
                             {sortedInvoices.map((data) => (
                                 <TableRow key={data?._id}>
                                     <TableCell className="font-semibold">
-                                        {data?.clientName}
+                                        {data?.client.name}
                                     </TableCell>
                                     <TableCell>
                                         {formatDate(data?.invoiceDate)}
