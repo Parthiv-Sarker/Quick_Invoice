@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import cron from "node-cron";
 import connectDB from "@/config/dbConfig";
 import invoiceModel from "@/models/invoice.model";
 
@@ -6,41 +6,44 @@ async function checkOverdueInvoices() {
     try {
         await connectDB();
 
-        // Get current date
         const currentDate = new Date();
-
-        // Find invoices that are overdue but not marked as "Overdue"
-        const overdueInvoices = await invoiceModel.find({
-            dueDate: { $lt: currentDate },
-            status: { $ne: "Overdue" },
+        const invoices = await invoiceModel.find({
+            status: { $nin: ["Overdue", "Paid"] }, // Only pending invoices
         });
 
-        if (overdueInvoices.length === 0) {
-            console.log("✅ No overdue invoices found.");
-        } else {
-            // Update overdue invoices
+        let overdueInvoices = [];
+
+        for (const invoice of invoices) {
+            const dueDays = parseInt(invoice.dueDate, 10);
+            if (isNaN(dueDays)) continue;
+
+            const invoiceDate = new Date(invoice.date);
+            const dueDate = new Date(invoiceDate);
+            dueDate.setDate(invoiceDate.getDate() + dueDays);
+
+            if (dueDate < currentDate) {
+                overdueInvoices.push(invoice._id);
+            }
+        }
+
+        if (overdueInvoices.length > 0) {
             await invoiceModel.updateMany(
-                { _id: { $in: overdueInvoices.map((invoice) => invoice._id) } },
-                { $set: { status: "Overdue" } }
+                { _id: { $in: overdueInvoices } },
+                { $set: { paymentStatus: "Overdue" } }
             );
             console.log(
-                `🚀 Updated ${overdueInvoices.length} invoices to 'Overdue' status.`
+                `\n🚀 Updated ${overdueInvoices.length} invoices to 'Overdue' status.\n`
             );
+        } else {
+            console.log("\n✅ No overdue invoices found.\n");
         }
     } catch (error) {
         console.error("❌ Error checking overdue invoices:", error);
-    } finally {
-        // Run again after 5 minutes (300,000 ms)
-        setTimeout(checkOverdueInvoices, 300000);
     }
 }
 
-checkOverdueInvoices();
-
-export async function PATCH(req) {
-    console.log("Invoice overdue check is running automatically.");
-    
-    return NextResponse.json({
-        message: "Invoice overdue check is running automatically.",
-    });
-}
+// Schedule the job to run every 5 minutes
+cron.schedule("*/5 * * * *", () => {
+    console.log("\n⏳ Running overdue invoice check...\n");
+    checkOverdueInvoices();
+});

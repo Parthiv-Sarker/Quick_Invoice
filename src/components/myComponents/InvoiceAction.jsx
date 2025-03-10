@@ -52,6 +52,18 @@ const InvoiceAction = ({ invoiceId, currentStatus }) => {
         }
     };
 
+    const onSendEmail = async () => {
+        try {
+            const response = await API.post("/invoice/send-email", invoiceId);
+            console.log(response);
+            toast.success("Email send successfully!");
+        } catch (error) {
+            toast.error("Failed to send email", {
+                description: error.response?.data?.error,
+            });
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -73,7 +85,7 @@ const InvoiceAction = ({ invoiceId, currentStatus }) => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="hover:cursor-pointer">
-                    <button>
+                    <button onClick={onSendEmail}>
                         <Mail className="size-4 mr-2" />
                         Reminder Email
                     </button>

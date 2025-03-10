@@ -80,7 +80,7 @@ const InvoiceList = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     {formatDate(
-                                                        data?.invoiceDate
+                                                        data?.date
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="font-semibold">
