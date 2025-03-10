@@ -33,7 +33,7 @@ const DeleteInvoice = ({ params }) => {
             const { id } = params;
             setIsLoading(true);
             
-            await API.delete(`/invoice/delete/${id}`);
+            await API.delete(`/invoice/delete-invoice/${id}`);
             dispatch(deleteInvoiceData(id));
     
             toast.success("Invoice deleted successfully.");

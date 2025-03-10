@@ -39,7 +39,8 @@ import { toast } from "sonner";
 
 import { formatCurrency } from "@/lib/formatCurrency";
 
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import { addInvoiceData } from "@/redux/slices/invoiceSlice"
 
 import API from "@/config/axiosConfig";
 
@@ -73,6 +74,7 @@ const formSchema = z.object({
 });
 
 const CreateInvoice = () => {
+    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
     const { status, userData } = useSelector((state) => state.auth); 
@@ -110,7 +112,8 @@ const CreateInvoice = () => {
     const onSubmit = async (data) => {
         try {
             setIsLoading(true);
-            const response = await API.post("/invoice/create", data);
+            const response = await API.post("/invoice/create-invoice", data);
+            dispatch(addInvoiceData(response.data.data))
             toast.success("Invoice created successfully.");
             form.reset();
         } catch (error) {

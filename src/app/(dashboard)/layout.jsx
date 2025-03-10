@@ -25,6 +25,7 @@ const DashboardLayout = ({ children }) => {
     useEffect(() => {
         async function fetchData() {
             try {
+                await API.get("/start-cron"); 
                 dispatch(setLoading(true));
                 const invoiceResponse = await API.get("/invoice/get-invoices");
                 dispatch(setInvoiceData(invoiceResponse.data.data));
