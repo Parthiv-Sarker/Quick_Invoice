@@ -3,6 +3,10 @@ import { calculateDueDate } from "@/lib/calculateDueDate";
 import { formatCurrency } from "@/lib/formatCurrency";
 
 export default function PaymentReminderEmail(props) {
+    const invoiceLink =
+        process.env.NEXT_NODE_ENV === "development"
+            ? `http://localhost:3000/api/invoice/download-invoice/${props._id}`
+            : `https://quick-invoice-nine.vercel.app/api/invoice/download-invoice/${props._id}`;
     return (
         <html>
             <head>
@@ -90,11 +94,14 @@ export default function PaymentReminderEmail(props) {
                     }
                     .button {
                       display: inline-block;
-                      padding: 12px 24px;
+                      padding: 4px 10px;
                       background-color: #0066cc;
                       color: #fff;
                       text-decoration: none;
                       border-radius: 4px;
+                    }
+                    .button p{
+                      color: #fff;
                       font-weight: bold;
                     }
                     .button:hover {
@@ -159,8 +166,8 @@ export default function PaymentReminderEmail(props) {
                         </p>
 
                         <div className="button-container">
-                            <a href={props.invoiceLink} className="button">
-                                Download Invoice
+                            <a href={invoiceLink} className="button">
+                                <p>Download Invoice</p>
                             </a>
                         </div>
 

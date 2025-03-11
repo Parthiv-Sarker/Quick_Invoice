@@ -38,9 +38,10 @@ import { CalendarIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { formatCurrency } from "@/lib/formatCurrency";
+import { createInvoiceNo } from "@/lib/createInvoiceNo";
 
-import { useDispatch,useSelector } from "react-redux";
-import { addInvoiceData } from "@/redux/slices/invoiceSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { addInvoiceData } from "@/redux/slices/invoiceSlice";
 
 import API from "@/config/axiosConfig";
 
@@ -70,14 +71,15 @@ const formSchema = z.object({
         .min(1, { message: "Rate is required." })
         .transform((v) => Number(v) || 0),
     totalAmount: z.number().default(0),
-    note: z.string().default(""),
+    notes: z.string().default(""),
 });
 
 const CreateInvoice = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { status, userData } = useSelector((state) => state.auth); 
+    const { status, userData } = useSelector((state) => state.auth);
+    const { invoiceData } = useSelector((state) => state.invoice);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -95,7 +97,7 @@ const CreateInvoice = () => {
             quantity: 0,
             totalAmount: 0,
             rate: 0,
-            note: "",
+            notes: "",
         },
     });
 
@@ -109,11 +111,17 @@ const CreateInvoice = () => {
         form.setValue("totalAmount", total, { shouldValidate: true });
     }, [quantity, rate, form.setValue]);
 
+    useEffect(() => {
+        form.setValue("invoiceNo", createInvoiceNo(invoiceData), {
+            shouldValidate: true,
+        });
+    }, [quantity]);
+
     const onSubmit = async (data) => {
         try {
             setIsLoading(true);
             const response = await API.post("/invoice/create-invoice", data);
-            dispatch(addInvoiceData(response.data.data))
+            dispatch(addInvoiceData(response.data.data));
             toast.success("Invoice created successfully.");
             form.reset();
         } catch (error) {
@@ -181,7 +189,8 @@ const CreateInvoice = () => {
                                                     #
                                                 </Badge>
                                                 <Input
-                                                    className="w-full rounded-l-none"
+                                                    disabled
+                                                    className="w-full rounded-l-none font-bold"
                                                     placeholder="5"
                                                     {...field}
                                                 />
@@ -488,7 +497,7 @@ const CreateInvoice = () => {
                         <div>
                             <FormField
                                 control={form.control}
-                                name="note"
+                                name="notes"
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>Note:</FormLabel>

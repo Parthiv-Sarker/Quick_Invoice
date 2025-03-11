@@ -11,6 +11,7 @@ const pdf = new jsPDF({
 });
 
 const generatePdf = async (invoiceData, signatureImg) => {
+    let currency = "\u20B9";;
     pdf.setTextColor(0, 0, 0);
 
     // Set header
@@ -64,22 +65,25 @@ const generatePdf = async (invoiceData, signatureImg) => {
     pdf.text("SUBTOTAL ", 2.5, 18.8);
     pdf.text(String(invoiceData.totalAmount), 16.2, 18.8);
     pdf.text("TOTAL ", 13, 19.8);
-    pdf.text(
-        formatCurrency({
-            amount: invoiceData.totalAmount,
-            currency: invoiceData.currency,
-        }),
-        16.2,
-        19.8
-    );
+
+    pdf.text(currency, 15.8, 19.8);
+    pdf.text(String(invoiceData.totalAmount), 16.2, 19.8);
 
     if (invoiceData.notes) {
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(12);
-        pdf.text("Note:", 2, 20);
+        pdf.text("Note:", 2, 21);
+
         pdf.setFont("helvetica", "normal");
-        pdf.text(invoiceData.notes, 3.5, 20);
+
+        // Wrap the text within a max width (e.g., 16 cm)
+        const wrappedText = pdf.splitTextToSize(invoiceData.notes, 10);
+
+        // Print the wrapped text starting at (3.5, 20) and auto-adjust lines
+        pdf.setFontSize(10);
+        pdf.text(wrappedText, 3.3, 21);
     }
+
     pdf.addImage(signatureImg, "PNG", 13, 22, 6, 3);
 
     const pdfBuffer = Buffer.from(pdf.output("arraybuffer"));

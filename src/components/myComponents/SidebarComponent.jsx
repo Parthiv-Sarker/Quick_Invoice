@@ -30,18 +30,18 @@ const SidebarComponent = () => {
     return (
         <Sidebar>
             <div className="flex items-center gap-4 p-6">
-                <Image
+                {/* <Image
                     src={invoiceLogo}
                     alt="logo"
                     width={500}
                     height={500}
                     className="w-16 h-16"
-                />
-                <div className="flex flex-col">
-                    <span className="text-4xl font-extrabold font-dancing-script text-black">
+                /> */}
+                <div className="flex gap-1 p-2">
+                    <span className="text-5xl font-extrabold font-dancing-script text-[#96CDB4]">
                         Quick
                     </span>
-                    <span className="font-pacifico text-2xl font-bold ml-10 text-[#FF6F68]">
+                    <span className="font-pacifico text-2xl font-bold text-[#FF6F68]">
                         Invoice
                     </span>
                 </div>
