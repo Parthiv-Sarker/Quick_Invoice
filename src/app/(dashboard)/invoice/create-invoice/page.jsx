@@ -104,12 +104,23 @@ const CreateInvoice = () => {
     // Watch quantity and rate changes
     const quantity = useWatch({ control: form.control, name: "quantity" });
     const rate = useWatch({ control: form.control, name: "rate" });
+    const dueDate = useWatch({ control: form.control, name: "dueDate" });
 
     // Calculate totalAmount when quantity or rate changes
     useEffect(() => {
         const total = quantity * rate;
         form.setValue("totalAmount", total, { shouldValidate: true });
     }, [quantity, rate, form.setValue]);
+
+    useEffect(() => {
+        form.setValue(
+            "notes",
+            `Payment is due within ${dueDate} days of the invoice date. Please contact us if you have any questions regarding this invoice.`,
+            {
+                shouldValidate: true,
+            }
+        );
+    }, [dueDate]);
 
     useEffect(() => {
         form.setValue("invoiceNo", createInvoiceNo(invoiceData), {

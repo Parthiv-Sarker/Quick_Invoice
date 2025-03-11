@@ -49,11 +49,11 @@ const InvoiceList = () => {
                     <MyLoader />
                 </div>
             ) : (
-                <Card>
+                <Card >
                     <CardHeader>
                         <CardTitle>Invoice List</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="overflow-x-auto">
                         <Table>
                             {invoiceData.length > 0 ? (
                                 <>
