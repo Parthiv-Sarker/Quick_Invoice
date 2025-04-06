@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true,
+            // required: true,
         },
     },
     { timestamps: true }
@@ -26,7 +26,6 @@ userSchema.pre("save", function (next) {
     }
     next();
 });
-
 
 const userModel = mongoose.models.User || mongoose.model("User", userSchema);
 

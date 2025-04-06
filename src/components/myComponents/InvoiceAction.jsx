@@ -49,7 +49,7 @@ const InvoiceAction = ({ invoiceId, currentStatus }) => {
                 invoiceId
             );
             console.log(response.data);
-            
+
             toast("Payment status updated successfully!");
         } catch (error) {
             toast("Failed to update payment status", {
@@ -72,7 +72,7 @@ const InvoiceAction = ({ invoiceId, currentStatus }) => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="hover:cursor-pointer">
                 <Button size="icon" variant="secondary">
                     <MoreHorizontal className="size-4" />
                 </Button>

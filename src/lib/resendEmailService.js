@@ -16,11 +16,11 @@ export async function sendEmail(payload) {
     try {
         const response = await resend.emails.send({
             from: "Quick Invoice <QuickInvoice@parthiv.life>",
-            to: payload.user.email,
+            to: payload.invoice.client.email,
             subject: "Quick Invoice | Invoice Email",
             react: PaymentReminderEmail(payload.invoice),
         });
-        console.log(response);
+        // console.log(payload);
 
         return {
             success: true,

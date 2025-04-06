@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { signIn } from "next-auth/react";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -191,6 +193,9 @@ const Signup = () => {
                         Sign In
                     </Link>
                 </p>
+                <Button onClick={() => signIn("google")}>
+                    Sign in with Google
+                </Button>
             </CardFooter>
         </Card>
     );
